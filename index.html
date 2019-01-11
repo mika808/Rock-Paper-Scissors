@@ -17,22 +17,26 @@
   <button id="newGame" class="buttonGame">New Game  :)</button>
 
     <div>
-        <button id="rock" class="buttonRock">rock</button>
-        <button id="paper" class="buttonPaper">paper</button>
-        <button id="scissors" class="buttonScissors">scissors</button>
+        <button id="rock" class="buttonRock player-move" data-move="ROCK">rock</button>
+        <button id="paper" class="buttonPaper player-move" data-move="PAPER">paper</button>
+        <button id="scissors" class="buttonScissors player-move" data-move="SCISSORS">scissors</button>
     </div>
 
     <div id="output"></div>
     <div id="counter"></div>
     <div id="info"></div>
   
-  
+    <div class="overlay" id="modal-overlay">
+        <div class="modal" id="modal-score">
+            <a href="#" class="close">x</a>
+            <header>Wyniki gry</header>
+            <div class="content">
+            </div>
+            <table id="progress-table"></table>
+        </div>
+    </div>
 
     <script  src="js/index.js"></script>
-
-
-
-
 </body>
 
 </html>
