@@ -1,5 +1,8 @@
 "use strict";
 
+var outputDiv = document.getElementById("output");
+var progressTable = document.getElementById("progress-table");
+
 var compMove = function() {
   var player2 = Math.floor(Math.random() * 3) + 1;
   var compChoose;
@@ -30,7 +33,7 @@ var result = function(player1, player2) {
     (player1 == "SCISSORS" && player2 == "PAPER")
   ) {
     params.player1Points++;
-    return "You get a point! :) :) :)";
+    return "You get a point! :)";
   } else {
     params.player2Points++;
     return "A point for the opponent! :[";
@@ -57,21 +60,6 @@ var playerMove = function(playerChoose) {
   }
 };
 
-// var rockBtn = document.getElementById('rock');
-// rockBtn.addEventListener('click', function () {
-//     playerMove('ROCK');
-// });
-
-// var paperBtn = document.getElementById('paper');
-// paperBtn.addEventListener('click', function () {
-//     playerMove('PAPER');
-// });
-
-// var scissorsBtn = document.getElementById('scissors');
-// scissorsBtn.addEventListener('click', function () {
-//     playerMove('SCISSORS');
-// });
-
 var playerMoveButtons = document.querySelectorAll(".player-move");
 for (var i = 0; i < playerMoveButtons.length; i++) {
   playerMoveButtons[i].addEventListener("click", function(event) {
@@ -80,18 +68,41 @@ for (var i = 0; i < playerMoveButtons.length; i++) {
   });
 }
 
-var displayResult = function(playerChoose, compChoose) {
-  var outputDiv = document.getElementById("output");
+function generateResultTable() {
+  var tbody = " ";
 
+  for (var i = 0; i < params.progress.length; i++) {
+    tbody += `
+    <tr>
+      <td>${params.progress[i].playerChoice}</td><td>${
+      params.progress[i].computerChoice
+    }</td><td>${params.progress[i].roundResult}</td><td>${
+      params.progress[i].gameResult
+    }</td>
+    </tr>  
+    `;
+  }
+
+  var table = `
+    <thead>
+      <th>Wybór gracza</th><th>Wybór komputera</th><th>Wynik rundy</th><th>Wynik gry</th>
+      <tbody>
+      ${tbody}
+      </tbody>
+    </thead>  
+  `;
+  progressTable.innerHTML = table;
+}
+
+var displayResult = function(playerChoose, compChoose) {
   var score = result(playerChoose, compChoose);
 
   params.progress.push({
-    ruchGracza: playerChoose,
-    ruchKomputera: compChoose,
-    wynikRundy: score,
-    wynikGry: params.player1Points + "-" + params.player2Points
-  });  
-
+    playerChoice: playerChoose,
+    computerChoice: compChoose,
+    roundResult: score,
+    gameResult: params.player1Points + "-" + params.player2Points
+  });
 
   outputDiv.innerHTML =
     score +
@@ -108,40 +119,13 @@ var displayResult = function(playerChoose, compChoose) {
 
   if (params.player1Points == params.rounds) {
     outputDiv.innerHTML = "YOU WON THE ENTIRE GAME !!! :]";
-    scoreModalContent.innerHTML = outputDiv.innerHTML;  
-
-    // var progressTable = document.querySelector("#modal-score #progress-table");
-    // for(var i=0; i< params.progress.length ; i++){
-    //   var row = "<tr>";
-    //   row += "<td>" + params.progress[i].ruchGracza + "</td>";
-    //   row += "<td>" + params.progress[i].ruchKomputera + "</td>";
-    //   row += "</tr>";
-    //   function addRow(tableID) {
-    //     // Get a reference to the table
-    //     let tableRef = document.getElementById(tableID);
-      
-    //     // Insert a row at the end of the table
-    //     let newRow = tableRef.insertRow(-1);
-      
-    //     // Insert a cell in the row at index 0
-    //     let newCell = newRow.insertCell(0);
-      
-    //     // Append a text node to the cell
-    //     let newText = document.createTextNode('New bottom row');
-    //     newCell.appendChild(newText);
-    //   }
-      
-    //   // Call addRow() with the table's ID
-    //   addRow('my-table');
-    //   // progressTable.appendChild(row);
-    
-
+    scoreModalContent.innerHTML = outputDiv.innerHTML;
+    generateResultTable();
     showModal("modal-score");
-
   } else if (params.player2Points == params.rounds) {
     outputDiv.innerHTML = "YOU LOST THE ENTIRE GAME !!! :'[";
     scoreModalContent.innerHTML = outputDiv.innerHTML;
-
+    generateResultTable();
     showModal("modal-score");
   }
 };

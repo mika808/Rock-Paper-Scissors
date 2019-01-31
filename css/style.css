@@ -22,7 +22,7 @@ button { display: inline-block; padding: 11px 50px; margin-bottom: 10px; margin-
 
 .overlay.show { display: block; }
 
-.modal { padding: 15px; display: none; background: #fff; width: 400px; position: absolute; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); }
+.modal { padding: 15px; display: none; background: #fff; width: 550px; position: absolute; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); }
 
 .modal.show { display: block; }
 
